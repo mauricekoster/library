@@ -4,9 +4,9 @@ Local $prvMsg
 Local $prvLogLevel = 0
 Local $prvLogMode = 0
 
-Dim $do_console = False		; mode = 4
-Dim $do_debugview = False		; mode = 8
-Dim $do_file = False			; mode = 2
+Dim $do_console = False ; mode = 4
+Dim $do_debugview = False ; mode = 8
+Dim $do_file = False ; mode = 2
 Dim $log_begin = False
 
 Func _IIf($condition, $truepart, $falsepart)
@@ -15,32 +15,32 @@ Func _IIf($condition, $truepart, $falsepart)
 	Else
 		Return $falsepart
 	EndIf
-EndFunc
+EndFunc   ;==>_IIf
 
 #Region Output
 
 Func OutputDebug($msg)
 
-    ;Output to application attaching a console to the script engine
-    ConsoleWrite($msg & @CRLF)
-    ;Output to debugger (dbgview.exe)
+	;Output to application attaching a console to the script engine
+	ConsoleWrite($msg & @CRLF)
+	;Output to debugger (dbgview.exe)
 	OutputDebugString($msg)
 
-EndFunc
+EndFunc   ;==>OutputDebug
 
 Func OutputDebugString($msg)
 	DllCall("kernel32.dll", "none", "OutputDebugString", "str", $msg)
-EndFunc
+EndFunc   ;==>OutputDebugString
 
-#EndRegion
+#EndRegion Output
 
 
 #Region Log functies
 
 Func LogLevel()
 	if $prvLogLevel = 0 Then
-		$l = RegRead( "HKEY_CURRENT_USER\Software\VB and VBA Program Settings\All\Logging", "Level")
-		if @error<> 0 Then
+		$l = RegRead("HKEY_CURRENT_USER\Software\VB and VBA Program Settings\All\Logging", "Level")
+		if @error <> 0 Then
 			$prvLogLevel = 1 ; Error
 		Else
 			Switch $l
@@ -58,12 +58,12 @@ Func LogLevel()
 		;OutputDebug( "! LogLevel: " & $prvLogLevel )
 	EndIf
 	Return $prvLogLevel
-EndFunc
+EndFunc   ;==>LogLevel
 
 Func LogMode()
 	if $prvLogMode = 0 Then
-		$l = RegRead( "HKEY_CURRENT_USER\Software\VB and VBA Program Settings\All\Logging", "Mode")
-		if @error<> 0 Then
+		$l = RegRead("HKEY_CURRENT_USER\Software\VB and VBA Program Settings\All\Logging", "Mode")
+		if @error <> 0 Then
 			$prvLogMode = 4 ; Console
 		else
 			$prvLogMode = $l
@@ -81,99 +81,99 @@ Func LogMode()
 
 	EndIf
 	Return $prvLogMode
-EndFunc
+EndFunc   ;==>LogMode
 
-Func __log_console_message($msg, $donewline=True)
+Func __log_console_message($msg, $donewline = True)
 	if $do_console then
 		if $log_begin Then
-			ConsoleWrite( @CRLF )
+			ConsoleWrite(@CRLF)
 			$log_begin = False
 		EndIf
-		ConsoleWrite( $msg )
-		if $donewline Then ConsoleWrite( @CRLF )
+		ConsoleWrite($msg)
+		if $donewline Then ConsoleWrite(@CRLF)
 
 	EndIf
-EndFunc
+EndFunc   ;==>__log_console_message
 
 Func __log_debugview_message($msg)
 	if $do_debugview then
-		OutputDebugString( $msg &  @CRLF )
+		OutputDebugString($msg & @CRLF)
 	EndIf
-EndFunc
+EndFunc   ;==>__log_debugview_message
 
 Func LogError($msg)
 	LogMode()
-	__log_console_message( "! " & $msg)
-	__log_debugview_message( "[error] " & $msg )
-EndFunc
+	__log_console_message("! " & $msg)
+	__log_debugview_message("[error] " & $msg)
+EndFunc   ;==>LogError
 
 Func LogWarning($msg)
 	LogMode()
 	If LogLevel() >= 2 Then
-		__log_console_message( "- " & $msg )
-		__log_debugview_message( "[warning] " & $msg )
+		__log_console_message("- " & $msg)
+		__log_debugview_message("[warning] " & $msg)
 	EndIf
-EndFunc
+EndFunc   ;==>LogWarning
 
 Func LogInfo($msg)
 	LogMode()
 	If LogLevel() >= 3 Then
-		__log_console_message( "* " & $msg)
-		__log_debugview_message( "[info] " & $msg )
+		__log_console_message("* " & $msg)
+		__log_debugview_message("[info] " & $msg)
 	EndIf
-EndFunc
+EndFunc   ;==>LogInfo
 
 Func LogDebug($msg)
 	LogMode()
 	If LogLevel() >= 4 Then
-		__log_console_message( "> " & $msg )
-		__log_debugview_message( "[debug] " & $msg )
+		__log_console_message("> " & $msg)
+		__log_debugview_message("[debug] " & $msg)
 	EndIf
-EndFunc
+EndFunc   ;==>LogDebug
 
 Func LogBegin($msg)
 	LogMode()
 
-	__log_console_message( "+> " & StringFormat("%-100s : ",$msg) , False)
+	__log_console_message("+> " & StringFormat("%-100s : ", $msg), False)
 	$log_begin = True
 	$prvMsg = $msg
-EndFunc
+EndFunc   ;==>LogBegin
 
-Func LogEnd($errcode=0)
+Func LogEnd($errcode = 0)
 	LogMode()
-	$msg = "[ " & _Iif($errcode=0, "ok", "!!") & " ]"
+	$msg = "[ " & _IIf($errcode = 0, "ok", "!!") & " ]"
 	if not $log_begin Then
-		$msg = "+ END> " & StringFormat("%-96s : ","") & $msg
+		$msg = "+ END> " & StringFormat("%-96s : ", "") & $msg
 	EndIf
 	$log_begin = False
-	__log_console_message( $msg )
-	__log_debugview_message( $prvMsg & " " & $msg  )
+	__log_console_message($msg)
+	__log_debugview_message($prvMsg & " " & $msg)
 	$log_begin = False
-EndFunc
+EndFunc   ;==>LogEnd
 
 
-#EndRegion
+#EndRegion Log functies
 
 #Region test functie
 Func _TestOuputDebug()
-	LogError( "ERROR" )
-	LogWarning( "WARNING" )
-	LogInfo( "INFO" )
-	LogDebug( "DEBUG" )
+	LogError("ERROR")
+	LogWarning("WARNING")
+	LogInfo("INFO")
+	LogDebug("DEBUG")
 
-	LogBegin( "Test error" )
-	Sleep( 2000)
+	LogBegin("Test error")
+	Sleep(2000)
 	LogEnd()
 
-	LogBegin( "Test error" )
-	Sleep( 2000)
+	LogBegin("Test error")
+	Sleep(2000)
 	LogInfo("Bla bla")
-	Sleep( 2000)
+	Sleep(2000)
 	LogEnd()
 
-EndFunc
+EndFunc   ;==>_TestOuputDebug
 
 
 _TestOuputDebug()
 
-#EndRegion
+#EndRegion test functie
