@@ -39,7 +39,10 @@ def __ReadRepositoryInfo():
 
     cfg = ConfigParser.ConfigParser()
     fn = os.path.join( UserSettings.settingsdir, 'repositories.ini' )
-    cfg.readfp( open( fn ) )
+    try:
+      cfg.readfp( open( fn ) )
+    except:
+      return
 
     host = user = passwd = ''
 
@@ -76,7 +79,7 @@ def GetDefaultRepositoryNr():
 def GetDefaultRepository():
     #print __repositories
     return __repositories[__repository_default-1]
-    
+
 def GetRepositories():
     return __repositories
 
@@ -88,7 +91,8 @@ if not __repositories:
     __ReadRepositoryInfo()
 
 if __name__ == '__main__':
+  if __repositories:
     for k in __repositories:
         print k
-
-
+  else:
+    print "No repostories found!"
