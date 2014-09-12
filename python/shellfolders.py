@@ -1,22 +1,27 @@
 import os
 import registry
 
-__shellfolders = registry.readValues( 'HKCU', r'Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders')
+__common_shellfolders = registry.readValues( 'HKLM', r'Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders')
+
+__personal_shellfolders = registry.readValues( 'HKCU', r'Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders')
+
+def CommonAppData():
+    return __common_shellfolders['Common AppData']
 
 def MyDocuments():
-    return __shellfolders['Personal']
+    return __personal_shellfolders['Personal']
 
 def MyTemp():
     return os.environ['TEMP']
 
 def MyDesktop():
-    return __shellfolders['Desktop']
+    return __personal_shellfolders['Desktop']
 
 def MyAppData():
-    return __shellfolders['AppData']
+    return __personal_shellfolders['AppData']
 
 def MyLocalAppData():
-    return __shellfolders['Local AppData']
+    return __personal_shellfolders['Local AppData']
 
 if __name__ == '__main__':
     print "My Documents: %s" % MyDocuments()

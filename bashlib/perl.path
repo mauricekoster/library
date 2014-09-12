@@ -1,0 +1,4 @@
+echo "Perl lib: "
+PERL5LIB=$HOME/perllib:$PERL5LIB
+export PERL5LIB
+echo ${PERL5LIB}
