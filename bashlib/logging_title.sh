@@ -24,7 +24,7 @@ __title ()
     case "$TERM" in
         xterm | xterm-color | rxvt | cygwin)
             echo -n -e "\033]0;$*\007" ;;
-        *)  
+        *)
 	    ;;
     esac
 }
@@ -40,11 +40,15 @@ end_nok_title() {
     __title ""
 }
 
+progress_title() {
+  return 0
+}
+
 help_title() {
     echo "
 MODE title
 
-Use this mode to disable all logging. 
+Use this mode to disable all logging.
 All trace functions will return directly.
 Except: begin and end.
 begin will put message in titlebar of window.

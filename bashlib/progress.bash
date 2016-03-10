@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/bin/bash
 
 MSG="Hele lange berichtje, Testing 123 ..."
 
@@ -10,4 +10,3 @@ MSG="Hele lange berichtje, Testing 123 ..."
         t=`expr $t + 10`
         sleep 1
     done
-

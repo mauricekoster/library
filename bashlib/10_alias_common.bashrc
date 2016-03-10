@@ -1,7 +1,7 @@
 #-------------------
 # Personnal Aliases
 #-------------------
-
+begin "Common aliases"
 #aLias rm='rm -i'
 #alias cp='cp -i'
 #alias mv='mv -i'
@@ -22,4 +22,9 @@ alias background='xv -root -quit -max -rmode 5'    # Put a picture in the backgr
 alias du='du -kh'
 alias df='df -kTh'
 
+# Add an "alert" alias for long running commands.  Use like so:
+#   sleep 10; alert
+alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
+
+end
