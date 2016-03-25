@@ -4,8 +4,8 @@ import sys
 
 class NoUserDir(Exception): pass
 
-import shellfolders
-homedir = shellfolders.MyAppData()
+from os.path import expanduser
+homedir = expanduser("~")
 
 if homedir[-1] in r'\/':
     homedir = homedir[:-1]
