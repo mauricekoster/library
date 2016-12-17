@@ -131,10 +131,19 @@ function gitprompt()
    source ~/.bash-git-prompt/gitprompt.sh
 }
 
+function powerlineprompt()
+{
+  powerline-daemon -q
+  export POWERLINE_BASH_CONTINUATION=1
+  export POWERLINE_BASH_SELECT=1
+  . ~/.local/lib/python3.5/site-packages/powerline/bindings/bash/powerline.sh
+}
+
 #fastprompt
 #powerprompt
 #gentooprompt
-debianprompt
+#debianprompt
+powerlineprompt
 
 if [ -f ~/.bash-git-prompt/gitprompt.sh ]; then
   gitprompt
