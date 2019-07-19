@@ -136,7 +136,7 @@ function powerlineprompt()
   powerline-daemon -q
   export POWERLINE_BASH_CONTINUATION=1
   export POWERLINE_BASH_SELECT=1
-  . ~/.local/lib/python3.5/site-packages/powerline/bindings/bash/powerline.sh
+  . /usr/share/powerline/bindings/bash/powerline.sh
 }
 
 #fastprompt
